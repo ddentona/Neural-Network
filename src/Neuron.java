@@ -1,4 +1,3 @@
-import java.lang.Math;
 import java.util.Random;
 
 public class Neuron {
@@ -56,6 +55,6 @@ public class Neuron {
         }
         sum += bias;
 
-        return Statistics.sigmoid(sum); // ReLU function
+        return S.sigmoid(sum); // ReLU function
     }
 }

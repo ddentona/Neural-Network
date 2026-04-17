@@ -42,7 +42,7 @@ public class Teacher {
             discrepancies[i] = Math.abs(response - (answers.get(i) ? 1.0 : 0.0));
             i++;
         }
-        return Statistics.avg(discrepancies);
+        return S.avg(discrepancies);
     }
 
     public static void main(String[] args) {

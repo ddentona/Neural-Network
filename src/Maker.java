@@ -7,12 +7,20 @@ public class Maker {
     int input_count;
     double mean = 0, radius = 1; // Base statistics
     double[][][][] brains;
+    int[] brains_lengths;
 
     public Brain[] getBots() {
         return bots;
     }
     public void setBots(Brain[] bots) {
         this.bots = bots;
+    }
+
+    public int getInput_count() {
+        return input_count;
+    }
+    public void setInput_count(int input_count) {
+        this.input_count = input_count;
     }
 
     public double[][][][] getBrains() {
@@ -60,19 +68,74 @@ public class Maker {
     }
 
     /**
+     * Generates a giant 1D array only consisting of one value in every spot
+     * @param size  Array length. Must have 1 or more values or will return a blank array.
+     *              Relu of everything, so you can put negative, but it will end up zero.
+     * @param value
+     * @return      Array as described
+     */
+    public static double[] singleValueArray(int size, double value) {
+        size = S.relu(size);
+
+        double[] output = new double[size];
+
+        for (int i = 0; i < size; i++) {
+            output[i] = value;
+        }
+
+        return output;
+    }
+
+    /**
+     * Generates a giant 3D array only consisting of one value in every spot
+     * @param sizes Array of lengths. Must have 3 or more values or will return a blank array.
+     *              Relu of everything, so you can put negatives, but they will end up zeroes.
+     * @param value
+     * @return      Array as described
+     */
+    public static double[][][] singleValueArray(int[] sizes, double value) {
+        if (sizes.length < 3) return new double[0][0][0];
+
+        for (int i = 0; i < sizes.length; i++)
+            sizes[i] = S.relu(sizes[i]);
+
+        double[][][] output = new double[sizes[0]][sizes[1]][sizes[2]];
+
+        for (int i = 0; i < sizes[0]; i++) {
+            for (int j = 0; j < sizes[1]; j++) {
+                for (int k = 0; k < sizes[2]; k++) {
+                    output[i][j][k] = value;
+                }
+            }
+        }
+
+        return output;
+    }
+
+    /**
      * Generate a series of bots whose stats are all internally identical.
      * Externally, stats represent a series of values of constant density.
-     * @param count Number of bots
+     * @param bot_count Number of bots
      * @param min   Minimum value of stats
      * @param max   Maximum value of stats
      * @return      Bots created
      */
-    public Brain[] generateConstantCurve(int count, double min, double max) {
-        bots = new Brain[count];
+    // TODO: Test the method
+    public Brain[] generateConstantCurve(int bot_count, double min, double max) {
+        bots = new Brain[bot_count];
         
-        double[] stats = Statistics.cd_curve(count, min, max);
-        for (int i = 0; i < count; i++) {
-            
+        double[] stats = S.cd_curve(bot_count, min, max);
+        double[][][] neurons;
+        for (int i = 0; i < bot_count; i++) {
+            neurons = singleValueArray(new int[]{3,3,3}, stats[i]);
+
+            // Modifying the first value so it lines up with the number of inputs
+            for (int j = 0; j < neurons[0].length; j++) {
+                double[] constants = singleValueArray(input_count, stats[i]);
+                neurons[0][j] = constants;
+            }
+
+            bots[i] = new Brain(neurons);
         }
 
         return bots;

@@ -1,6 +1,10 @@
 import java.lang.Math;
 
-public class Statistics {
+/**
+ * A class for all my statistics code.
+ * Calling this simply S to keep it simple since I expect to use it a lot.
+ */
+public class S {
     public static int avg(int[] in) {
         int out = 0;
         for (int i : in)
@@ -42,6 +46,10 @@ public class Statistics {
 
     public static double sigmoid(double x) {
         return 1/(1 + Math.exp(x));
+    }
+
+    public static int relu(int x) {
+        if (x > 0) return x; else return 0;
     }
 
     public static double relu(double x) {
