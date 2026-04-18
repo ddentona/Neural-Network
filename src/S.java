@@ -35,6 +35,20 @@ public class S {
         return avg(deviations);
     }
 
+    /**
+     * Returns location of smallest element of the array
+     * @param points    Array to go through
+     * @return          Location of smallest element in array
+     */
+    public static int minPoint(double[] points) {
+        int min_point = 0;
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] < points[min_point])
+                min_point = i;
+        }
+        return min_point;
+    }
+
     public static double std_dev(double[] in) {
         double[] deviations = new double[in.length];
         double avg = avg(in);

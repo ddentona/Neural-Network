@@ -3,6 +3,13 @@ public class Brain {
     int[] neuron_count;
     int inputs;
 
+    public Brain() {
+        neuron_count = new int[]{1};
+        inputs = 3;
+        neurons = new Neuron[1][1];
+        neurons[0][0] = new Neuron();
+    }
+
     public Brain(int input_count, int layer_count, int[] layer_widths) {
         neuron_count = layer_widths;
         neurons = new Neuron[layer_count + 1][];
@@ -47,6 +54,21 @@ public class Brain {
             necessary = neurons[0][i].add_weights(count) || necessary;
         }
         return necessary;
+    }
+
+    /**
+     * Get all stats of all neurons
+     * @return double[][][]
+     */
+    public double[][][] getFullStats() {
+        double[][][] stats = new double[neuron_count.length][][];
+        for (int i = 0; i < neuron_count.length; i++) {
+            stats[i] = new double[neuron_count[i]][];
+            for (int j = 0; j < neuron_count[i]; j++) {
+                stats[i][j] = neurons[i][j].getWeight();
+            }
+        }
+        return stats;
     }
 
     /**
