@@ -8,7 +8,7 @@ public class Parser {
 
         double[] wordsThere = new double[Dictionary.loc];
         for (int wordLoc : wordLocs) {
-            wordsThere[wordLoc] = 1.0;
+            wordsThere[wordLoc] += 1.0;
         }
 
         return wordsThere;

@@ -1,8 +1,7 @@
 import java.util.Random;
 
 public class Neuron {
-    double[] weight = {0.5, 0, -0.5};
-    double bias = 0.0;
+    double[] weight = {0.5, 0, -0.5, 0};
 
     Neuron() {}
     Neuron(int bias_count) {
@@ -15,21 +14,31 @@ public class Neuron {
         }
     }
     Neuron(double[] weights) {
-        weight = weights;
+        double base = weight[weight.length - 1];
+        weight = new double[weights.length + 1];
+        for (int i = 0; i < weights.length; i++) {
+            weight[i] = weights[i];
+        }
+        weight[weight.length-1] = base;
     }
 
     // Getters and setters
     public double[] getWeight() {
         return weight;
     }
-    public void setWeight(double[] weight) {
-        this.weight = weight;
+    public void setWeight(double[] weights) {
+        double base = weights[weights.length];
+        weights = new double[weights.length + 1];
+        for (int i = 0; i < weights.length; i++) {
+            weight[i] = weights[i];
+        }
+        weight[weight.length] = base;
     }
     public double getBias() {
-        return bias;
+        return weight[weight.length];
     }
     public void setBias(double bias) {
-        this.bias = bias;
+        weight[weight.length] = bias;
     }
 
     boolean add_weights(int final_count) {
@@ -50,10 +59,10 @@ public class Neuron {
 
     double review(double[] input) {
         double sum = 0;
-        for (int i = 0; i < weight.length; i++) {
+        for (int i = 0; i < weight.length - 1; i++) {
             sum += weight[i] * input[i];
         }
-        sum += bias;
+        sum += weight[weight.length - 1];
 
         return S.sigmoid(sum); // ReLU function
     }

@@ -161,7 +161,6 @@ public class Maker {
      * @param max   Maximum value of stats
      * @return      Bots created
      */
-    // TODO: Test the method
     public Brain[] allStatCUD(int bot_count, double min, double max) {
         generation = 0;
         bots = new Brain[bot_count];
@@ -169,7 +168,7 @@ public class Maker {
         double[] stats = S.cd_curve(bot_count, min, max);
         double[][][] neurons;
         for (int i = 0; i < bot_count; i++) {
-            neurons = singleValueArray(new int[]{8,8,8}, stats[i]);
+            neurons = singleValueArray(new int[]{256,16,4,2}, stats[i]);
 
             // Modifying the first value so it lines up with the number of inputs
             for (int j = 0; j < neurons[0].length; j++) {

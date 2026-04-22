@@ -10,7 +10,7 @@ public class Dictionary {
      * As long as it compares them somehow, it's fine.
      * @param s1
      * @param s2
-     * @return A omparison of the two strings
+     * @return A comparison of the two strings
      */
     public static boolean stringGeq(String s1, String s2) {
         int i = 0;
