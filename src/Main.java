@@ -17,7 +17,7 @@ public class Main {
             System.out.println(out);
             output[i] = out;
         }
-        double sd = 1; // S.std_dev(output);
+        double sd = 5; // S.std_dev(output);
         int minPoint = S.minPoint(output);
         System.out.print("μ = "); System.out.println(S.avg(output));
         System.out.print("σ = "); System.out.println(S.std_dev(output));
@@ -35,11 +35,13 @@ public class Main {
                     for (int k = 0; k < brains[0][i][j].length; k++) {
                         base = brains[minPoint][i][j][k];
                         turing.oneStatCUD(new int[]{i, j, k}, base - sd, base + sd);
+                        // TODO: Figure out why heavy concentrations of extremely negative numbers, "black holes", get such low failure rates and how to solve the problem
                         for (int l = 0; l < turing.getBots().length; l++) {
                             double out = church.testBrain(turing.getBots()[l]);
                             output[l] = out;
                         }
                         minPoint = S.minPoint(output);
+                        // TODO: Alter this so instead of just the minimum point, you find the trough and search for the minimum point in there.
                         if (output[minPoint] < bestError)
                             bestError = output[minPoint];
                         else
